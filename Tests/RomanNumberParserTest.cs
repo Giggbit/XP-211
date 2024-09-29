@@ -75,8 +75,7 @@ namespace Tests
         [TestMethod]
         public void DigitValueTest()
         {
-            TestCase[] testCases =
-            [
+            TestCase[] testCases = [
                 new('N', 0    ), 
                 new('I', 1    ),
                 new('V', 5    ),

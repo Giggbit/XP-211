@@ -43,6 +43,21 @@ namespace Tests
                 );
             }
 
+            /*Dictionary<String, int> testCases = new() {
+                { "I", 1 },
+                { "II", 2 },
+                { "III", 3 },
+                { "N", 0},
+                { "V", 5},
+                { "X", 10},
+                { "L", 50},
+                { "C", 100},
+                { "M", 1000 },
+            };
+            foreach (var testCase in testCases) {
+                Assert.AreEqual(testCase.Value, RomanNumber.Parse(testCase.Key).Value, $"Roman value {testCase.Value} -> {testCase.Key}");
+            }*/
+
             var Assert_ThrowsException_Method =
                 typeof(Assert)
                 .GetMethods()
@@ -91,6 +106,7 @@ namespace Tests
             }*/
 
 
+
             String[][] testCases8 = [
                 [ "IXIX",  "I", "0" ],  
                 [ "CXCXC", "X", "1" ],   
@@ -120,6 +136,83 @@ namespace Tests
                 );
             }
         }
+
+        [TestMethod]
+        public void ToStringTest() {
+            RomanNumber rn = new(1);
+            Assert.IsNotNull ( rn.ToString() );
+            Dictionary<int, string> testCases = new() 
+            {
+                {1, "I" },
+                {2, "II" },
+                {3, "III" },
+                {4, "IV" },
+                {5, "V" },
+                {6, "VI" },
+                {7, "VII" },
+                {8, "VIII" },
+                {9, "IX" },
+                {10, "X" },
+                {11, "XI" },
+                {12, "XII" },
+            };
+            foreach(var pair in testCases) {
+                Assert.AreEqual(
+                    pair.Value, 
+                    (rn with { Value = pair.Key }).ToString(), 
+                    $"RomanNumber.ToString {pair.Key} --> {pair.Value}"
+                );
+            }
+        }
+
+        [TestMethod]
+        public void CrossTest_Parse_ToString() { 
+            for(int i = 0; i < 40; i++) {
+                Assert.AreEqual(
+                    i,
+                    RomanNumber.Parse(new RomanNumber(i).ToString()).Value,
+                    $"Cross test for {i}"
+                );
+            }
+        }
+
+        /*[TestMethod]
+        public void DigitalValueTest() {
+            Dictionary<char, int> testCases = new() {
+                { 'N', 0},
+                { 'I', 1},
+                { 'V', 5},
+                { 'X', 10},
+                { 'L', 50},
+                { 'C', 100},
+                { 'D', 500},
+                { 'M', 1000},
+            };
+            foreach (var testCase in testCases)
+                foreach (var _testCase in testCases) {
+                    Assert.AreEqual(testCase.Value, RomanNumber.DigitalValue(testCase.Key), $"DigitalValue('{testCase.Value}')->{testCase.Value}");
+                    Assert.AreEqual(_testCase.Value, RomanNumber.DigitalValue(_testCase.Key), $"DigitalValue('{_testCase.Value}')->{_testCase.Value}");
+                }
+            var ex_source = new List<string>();
+            char[] ExcludedSymbols = { 'I', 'N', 'V', 'X', 'L', 'C', 'D', 'M' };
+            char[] AllowedSymbols = Enumerable.Range(0, 255)
+                                   .Select(c => (char)c)
+                                   .Where(c => !ExcludedSymbols.Contains(c))
+                                   .ToArray();
+            var rand = new Random();
+            var ex_cases = new List<char>();
+            for (int i = 0; i < 100; i++) {
+                ex_cases.Add(AllowedSymbols[rand.Next(AllowedSymbols.Length)]);
+            }
+            foreach (var testCase in ex_cases) {
+                var ex = Assert.ThrowsException<ArgumentException>(() => RomanNumber.DigitalValue(testCase), $"DigitalValue('{testCase}') must throw ArgumentException");
+                Assert.IsFalse(String.IsNullOrEmpty(ex.Message), "ex.Message must not be empty");
+                Assert.IsTrue(ex.Message.Contains($"invalid value '{testCase}'") && ex.Message.Contains("argument 'digit'"), $"ex.Message must contain param name ('digit') and its value '{testCase}'. ex.Messaage: '{ex.Message}'");
+                Assert.IsTrue(ex.Message.Contains("'RomanNumber.DigitalValue'"), $"ex.Message must contain origin (class and method): '{ex.Message}'");
+                Assert.IsTrue(ex.Source?.Contains("RomanNumber.DigitalValue"), $"ex.Source must contain origin (class and method): '{ex.Source}'");
+            }
+            Assert.AreEqual(1, RomanNumber.DigitalValue('I'), "DigitalValue('I')-> 1");
+        }*/
     }
 
     public class TestCase

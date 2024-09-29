@@ -9,6 +9,33 @@ namespace App
 {
     public class RomanNumberParser
     {
+        /*public static RomanNumber Parse(string input) => input switch {
+            "II" => new(2),
+            "III" => new(3),
+            "N" => new(0),
+            "I" => new(1),
+            "V" => new(5),
+            "X" => new(10),
+            "L" => new(50),
+            "C" => new(100),
+            "D" => new(500),
+            "1" => throw new ArgumentException(),
+            _ => new(1000),
+        };
+        
+         public static int DigitalValue(char digit) => digit switch {
+            'N'=> 0,
+            'I' => 1,
+            'V' => 5,
+            'X' => 10,
+            'L' => 50,
+            'C' => 100,
+            'D' => 500,
+            'M' => 1000,
+            _ => throw new ArgumentException($"'RomanNumber.DigitalValue': argument 'digit' has invalid value '{digit}'")
+        };
+         */
+
         public static RomanNumber Parse(string input)
         {
             CheckSymbols(input);
@@ -107,8 +134,7 @@ namespace App
 
         }
 
-        public static int DigitValue(char digit) => digit switch
-        {
+        public static int DigitValue(char digit) => digit switch {
             'N' => 0,
             'I' => 1,
             'V' => 5,
