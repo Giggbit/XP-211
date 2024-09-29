@@ -42,9 +42,9 @@ namespace App
             "D" => new(500),
             "1" => throw new ArgumentException(),
             _ => new(1000),
-        };
+        };*/
 
-        public static int DigitalValue(char digit) => digit switch {
+        /*public static int DigitalValue(char digit) => digit switch {
             'N' => 0,
             'I' => 1,
             'V' => 5,
@@ -55,5 +55,25 @@ namespace App
             'M' => 1000,
             _ => throw new ArgumentException($"'RomanNumber.DigitalValue': argument 'digit' has invalid value '{digit}'")
         };*/
+
+        /*public static void CheckSequence(string input) {
+            List<char> repetableSymbols = new List<char>() { 'I', 'X', 'C', 'M' };
+            List<char> unrepeatableSymbols = new List<char>() { 'V', 'L', 'D' };
+            int lessCount = 0;
+            for (int j = 0; j < input.Length; j++) {
+                int position = j;
+                int currentValue = DigitalValue(input[j]);
+                for (int i = 0; i < position; i++) {
+                    if (DigitalValue(input[i]) < currentValue) {
+                        lessCount++;
+                    }
+                    else break;
+                    if (lessCount > 1) {
+                        throw new FormatException($"RomanNumber.Parse({input}) error: more than one less digit before {input[position]} at position {position}. Invalid input {input}");
+                    }
+                }
+                lessCount = 0;
+            }
+        }*/
     }
 }
