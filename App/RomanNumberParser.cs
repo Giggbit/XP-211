@@ -36,6 +36,19 @@ namespace App
         };
          */
 
+        /*private static void CheckSymbols(String input) {
+            String argValue = input;
+            input = input.Trim();
+            for (int i = 0; i < input.Length; i++) {
+                try {
+                    DigitalValue(input[i]);
+                }
+                catch {
+                    throw new FormatException($"RomanNumber.Parse: invalid input '{argValue}' has illegal char '{input[i]}' at position {i}");
+                }
+            }
+        }*/
+
         public static RomanNumber Parse(string input)
         {
             CheckSymbols(input);
@@ -83,30 +96,22 @@ namespace App
             }
         }
 
-        private static void CheckFormat(String input)
-        {
+        private static void CheckFormat(String input) {
             int maxDigit = 0;
             bool wasMaxRepeat = false;
-            for (int i = input.Length - 1; i >= 0; i -= 1)
-            {
+            for (int i = input.Length - 1; i >= 0; i -= 1) {
                 char c = input[i];
                 int digit = DigitValue(c);
-                if (digit > maxDigit)
-                {
+                if (digit > maxDigit) {
                     maxDigit = digit;
                     wasMaxRepeat = false;
                 }
-                else if (digit == maxDigit)
-                {
+                else if (digit == maxDigit) {
                     wasMaxRepeat = true;
                 }
-                else if (wasMaxRepeat)
-                {
-                    throw new FormatException(
-                        $"RomanNumber.Parse('{input}') error invalid format: '{c}' misplaced at position {i}"
-                    );
+                else if (wasMaxRepeat) {
+                    throw new FormatException($"RomanNumber.Parse('{input}') error invalid format: '{c}' misplaced at position {i}");
                 }
-
             }
         }
 

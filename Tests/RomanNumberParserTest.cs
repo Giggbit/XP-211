@@ -113,16 +113,25 @@ namespace Tests
         }
 
         [TestMethod]
-        public void CheckFormatTest()
-        {
+        public static void CheckFormatTest() {
             String methodName = "CheckFormat";
             var method = typeof(RomanNumberParser).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
             Assert.IsNotNull(method, $"{methodName} method is inaccessible");
 
-            foreach(TestCase validCase in validCases) {
+            /*foreach (TestCase validCase in validCases) {
                 method!.Invoke(null, [validCase.Source]);
+            }*/
+
+            String[][] testCases = [
+                ["IVIV", "I", "0"],
+                ["CXCXC", "X", "1"],
+                ["XCC", "I", "0"], 
+                ["IXXX", "I", "0"],
+            ];
+            foreach (var testCase in testCases) {
+                var ex = Assert.ThrowsException<TargetInvocationException>(() => { RomanNumber.Parse(testCase[0]); }, $"RomanNumber.Parse('{testCase[0]}') must throw FormatException");
+                Assert.IsInstanceOfType<FormatException>(ex.InnerException, $"RomanNumber.Parse('{testCase[0]}') must throw FormatException");
             }
-            
         }
 
         [TestMethod]
@@ -218,6 +227,8 @@ namespace Tests
             new("X\nX", tpl4.F("X\nX", 1), exType),
             new("X\0X", tpl4.F("X\0X", 1), exType),
         ];
+
+
 
     }
 }

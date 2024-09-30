@@ -8,13 +8,13 @@ namespace Tests
     public class RomanNumberTest
     {
         [TestMethod]
-        public void ParseTest() {            
+        public void ParseTest() {
             TestCase[] validCases = [
                 new("I",      1    ),
                 new("II",     2    ),
                 new("III",    3    ),
                 new("IV",     4    ),
-                new("IIII",   4    ),  
+                new("IIII",   4    ),
                 new("IX",     9    ),
                 new("XX",     20   ),
                 new("X",      10   ),
@@ -35,10 +35,10 @@ namespace Tests
                 new("CD\n",   400  ),
                 new("XI\t\t", 11   ),
             ];
-            foreach (TestCase validCase in validCases)  {
+            foreach (TestCase validCase in validCases) {
                 Assert.AreEqual(
-                    validCase.Value, 
-                    RomanNumber.Parse(validCase.Source.ToString()!).Value, 
+                    validCase.Value,
+                    RomanNumber.Parse(validCase.Source.ToString()!).Value,
                     $"Valid Parser Test: '{validCase.Source}' => {validCase.Value}"
                 );
             }
@@ -105,9 +105,7 @@ namespace Tests
                 );
             }*/
 
-
-
-            String[][] testCases8 = [
+            /*String[][] testCases8 = [
                 [ "IXIX",  "I", "0" ],  
                 [ "CXCXC", "X", "1" ],   
                 [ "IXX",   "I", "0" ],  
@@ -134,6 +132,20 @@ namespace Tests
                     $"ex.Message must contain input value '{testCase[0]}': " +
                     $"testCase='{testCase[0]}',ex.Message='{ex.Message}'"
                 );
+            }*/
+
+            String[][] testCases8 = [
+                ["IXIX", "I", "0"],
+                ["CXCXC", "X", "1"],
+                ["IXX", "I", "0"],
+                ["IXXX", "I", "0"],
+            ];
+            foreach (var testCase in testCases8) {
+                var ex = Assert.ThrowsException<FormatException>(() => { RomanNumber.Parse(testCase[0]); }, $"RomanNumber.Parse('{testCase[0]}') must throw FormatException");
+                Assert.IsTrue(ex.Message.Contains($"{testCase[1]}") && ex.Message.Contains($"position {testCase[2]}"), 
+                    $"ex.Message must contain error char '{testCase[1]}' and its position {testCase[2]}: " + $"testCase='{testCase[0]}', ex.message='{ex.Message}'");
+                Assert.IsTrue(ex.Message.Contains("RomanNumber.Parse"), $"ex.Message must contain origin (class and method):" + $"testCase='{testCase[0]}', ex.message='{ex.Message}'");
+                Assert.IsTrue(ex.Message.Contains($"{testCase[0]}"), $"ex.Message must contain input value '{testCase[0]}':" + $"testCase='{testCase[0]}', ex.message='{ex.Message}'");
             }
         }
 
@@ -213,6 +225,24 @@ namespace Tests
             }
             Assert.AreEqual(1, RomanNumber.DigitalValue('I'), "DigitalValue('I')-> 1");
         }*/
+
+        [TestMethod]
+        public void AddRomanNumbersTest() {
+            RomanNumber rn1 = new(0), rn2 = new(0);
+            
+            Assert.IsInstanceOfType<RomanNumber>(rn1.Sum(rn2));
+
+            Assert.AreNotSame(rn1.Sum(rn2), rn2);
+            Assert.AreNotSame(rn1.Sum(rn2), rn1);
+
+            for(int i = 0; i < 10; i++) { 
+                int n1 = Random.Shared.Next(0, 2000);
+                int n2 = Random.Shared.Next(0, 2000);
+
+                Assert.AreEqual(n1 + n2, new RomanNumber(n1).Sum(new(n2)).Value, $"Test {n1} + {n2}");
+            }
+        }
+
     }
 
     public class TestCase
@@ -240,16 +270,13 @@ namespace Tests
         }
     }
 
-    public static class StringExtension
-    {
-        public static String F(this String str, params Object[] pars)
-        {
+    public static class StringExtension {
+        public static String F(this String str, params Object[] pars) {
             return String.Format(str, pars);
         }
     }
 
-    public static class AssertExtension
-    {
+    public static class AssertExtension {
         private static MethodInfo Assert_ThrowsException_Method = 
             typeof(Assert)
                 .GetMethods()
@@ -260,8 +287,7 @@ namespace Tests
                     m.GetParameters().First().ParameterType.Name == "Func`1")
                 .FirstOrDefault()!;
 
-        public static void CheckTestCase(Func<Object?> action, TestCase testCase)
-        {
+        public static void CheckTestCase(Func<Object?> action, TestCase testCase) {
             Type exType = testCase.ExceptionType ?? typeof(Exception);
 
             var Assert_ThrowsException_Generic =

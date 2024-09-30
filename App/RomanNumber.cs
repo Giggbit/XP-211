@@ -11,7 +11,7 @@ namespace App
         public static RomanNumber Parse(string input) => RomanNumberParser.Parse(input);
 
         public override string ToString() {
-            Dictionary<int, string> ranges = new() 
+            Dictionary<int, string> ranges = new()
             {
                 {1, "I" },
                 {4, "IV" },
@@ -21,7 +21,7 @@ namespace App
             };
             int n = Value;
             StringBuilder sb = new();
-            foreach(int range  in ranges.Keys.OrderByDescending(k => k)) {
+            foreach (int range in ranges.Keys.OrderByDescending(k => k)) {
                 while (n >= range) {
                     n -= range;
                     sb.Append(ranges[range]);
@@ -44,7 +44,7 @@ namespace App
             _ => new(1000),
         };*/
 
-        /*public static int DigitalValue(char digit) => digit switch {
+        public static int DigitalValue(char digit) => digit switch {
             'N' => 0,
             'I' => 1,
             'V' => 5,
@@ -54,7 +54,7 @@ namespace App
             'D' => 500,
             'M' => 1000,
             _ => throw new ArgumentException($"'RomanNumber.DigitalValue': argument 'digit' has invalid value '{digit}'")
-        };*/
+        };
 
         /*public static void CheckSequence(string input) {
             List<char> repetableSymbols = new List<char>() { 'I', 'X', 'C', 'M' };
@@ -75,5 +75,7 @@ namespace App
                 lessCount = 0;
             }
         }*/
+
+        public RomanNumber Sum(RomanNumber rn) => this with { Value = Value + rn.Value};
     }
 }
